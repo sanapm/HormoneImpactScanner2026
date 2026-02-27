@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scan Result</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Scan Result</h1>
+    <h2>{{ risk_level }}</h2>
+
+    <h3>Detected Ingredients:</h3>
+    <ul>
+        {% for ing in detected_ingredients %}
+            <li>{{ ing }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Suggestions:</h3>
+    <ul>
+        {% for sug in suggestions %}
+            <li>{{ sug }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="/">Scan Another</a>
+</div>
+</body>
+</html>

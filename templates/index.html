@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hormone Impact Scanner</title>
+</head>
+<body style="font-family: Arial; text-align: center; margin-top: 50px;">
+
+    <h1>Hormone Impact Scanner</h1>
+
+    <!-- FORM -->
+    <form id="uploadForm">
+        <input type="file" id="imageInput" required>
+        <br><br>
+        <button type="submit">Analyze Product</button>
+    </form>
+
+    <h2 id="result"></h2>
+
+    <script>
+        const form = document.getElementById("uploadForm");
+
+        form.addEventListener("submit", async function(event) {
+
+            event.preventDefault(); // 🔥 THIS STOPS PAGE REFRESH
+
+            const fileInput = document.getElementById("imageInput");
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert("Please upload an image first!");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("image", file);
+
+            try {
+                const response = await fetch("http://127.0.0.1:5000/analyze", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                document.getElementById("result").innerHTML = `
+                    <p><strong>Risk:</strong> ${data.risk}</p>
+                    <p><strong>Message:</strong> ${data.message}</p>
+                    <p><strong>Score:</strong> ${data.score}</p>
+                    <p><strong>Suggestion:</strong> ${data.suggestion}</p>
+                `;
+            } catch (error) {
+                document.getElementById("result").innerHTML = "Error connecting to backend.";
+                console.error(error);
+            }
+
+        });
+    </script>
+
+</body>
+</html>
