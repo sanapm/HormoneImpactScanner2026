@@ -6,7 +6,10 @@ from PIL import Image
 import os
 
 app = Flask(__name__)
-CORS(app)
+
+# allow configuring the frontend origin via env var (e.g. https://your-vercel-app.vercel.app)
+frontend_origin = os.environ.get("FRONTEND_ORIGIN", "*")
+CORS(app, resources={r"/*": {"origins": frontend_origin}})
 
 # 🔹 Set Tesseract path (CHANGE if different on your PC)
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
@@ -244,4 +247,7 @@ def analyze():
 # =========================
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Render sets $PORT; fall back to 5000 locally
+    port = int(os.environ.get("PORT", 5000))
+    debug_mode = os.environ.get("FLASK_ENV", "").lower() != "production"
+    app.run(host="0.0.0.0", port=port, debug=debug_mode)
