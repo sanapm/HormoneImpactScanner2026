@@ -1,30 +1,528 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hormone Impact Scanner</title>
+    <title>ScanIQ - PCOS & Hormonal Health Scanner</title>
+
+    <!-- Google Fonts - Beautiful & Elegant -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600;700&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== Body ===== */
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            background: linear-gradient(135deg, #F8D7E7 0%, #FFD4E5 50%, #F9D9E8 100%);
+            color: #FFFAF0;
+        }
+
+        /* ===== Sidebar Navigation ===== */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(180deg, #A64D7A 0%, #B85A88 100%);
+            padding: 30px 0;
+            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.15);
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFFAF0;
+            margin-bottom: 50px;
+            padding: 0 20px;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav li {
+            margin: 0;
+        }
+
+        .sidebar-nav button {
+            width: 100%;
+            padding: 15px 20px;
+            background: none;
+            border: none;
+            color: #FFFAF0;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .sidebar-nav button:hover {
+            background: rgba(255, 250, 240, 0.15);
+            padding-left: 25px;
+        }
+
+        .sidebar-nav button.active {
+            background: rgba(255, 250, 240, 0.25);
+            border-right: 4px solid #FFFAF0;
+            padding-left: 20px;
+        }
+
+        /* ===== Main Content ===== */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 50px;
+        }
+
+        /* ===== Page Sections ===== */
+        .page {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        /* ===== Home Page ===== */
+        #homePage {
+            text-align: center;
+        }
+
+        .home-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            color: #C84D6F;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .home-content p {
+            font-size: 18px;
+            color: #6B5150;
+            max-width: 500px;
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        .home-btn {
+            padding: 16px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            color: #FFFAF0;
+            background: linear-gradient(135deg, #A64D7A 0%, #B85A88 100%);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0px 6px 15px rgba(166, 77, 122, 0.25);
+        }
+
+        .home-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0px 10px 25px rgba(166, 77, 122, 0.35);
+            background: linear-gradient(135deg, #B85A88 0%, #C96795 100%);
+        }
+
+        /* ===== About Page ===== */
+        .about-content {
+            max-width: 600px;
+            text-align: left;
+        }
+
+        .about-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            color: #C84D6F;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        .about-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: #A64D7A;
+            margin-top: 25px;
+            margin-bottom: 12px;
+        }
+
+        .about-content p {
+            font-size: 16px;
+            color: #6B5150;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .about-content ul {
+            color: #6B5150;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-left: 20px;
+        }
+
+        /* ===== History Page ===== */
+        .history-content {
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .history-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            color: #C84D6F;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .history-item {
+            background: rgba(255, 250, 240, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            border-left: 5px solid #A64D7A;
+        }
+
+        .history-item-date {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .history-item-risk {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .history-item-message {
+            font-size: 14px;
+            color: #6B5150;
+            line-height: 1.6;
+        }
+
+        .empty-history {
+            background: rgba(255, 250, 240, 0.95);
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            color: #6B5150;
+            font-size: 18px;
+        }
+
+        .clear-history-btn {
+            margin-top: 25px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #A64D7A 0%, #B85A88 100%);
+            color: #FFFAF0;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0px 6px 15px rgba(166, 77, 122, 0.25);
+        }
+
+        .clear-history-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 10px 25px rgba(166, 77, 122, 0.35);
+            background: linear-gradient(135deg, #B85A88 0%, #C96795 100%);
+        }
+
+        /* ===== Heading ===== */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            color: #C84D6F;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        /* ===== Custom File Upload Button ===== */
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            width: 450px;
+            justify-content: center;
+        }
+
+        .custom-file-upload {
+            flex: 1;
+            padding: 16px 25px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #A64D7A 0%, #B85A88 100%);
+            color: #FFFAF0;
+            font-weight: 600;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0px 6px 15px rgba(166, 77, 122, 0.25);
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .custom-file-upload:hover {
+            transform: translateY(-3px);
+            box-shadow: 0px 10px 25px rgba(166, 77, 122, 0.35);
+            background: linear-gradient(135deg, #B85A88 0%, #C96795 100%);
+        }
+
+        /* ===== Hidden File Input ===== */
+        input[type="file"] {
+            display: none;
+        }
+
+        /* ===== Analyze Button ===== */
+        #analyzeBtn {
+            flex: 1;
+            padding: 16px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            color: #FFFAF0;
+            background: linear-gradient(135deg, #A64D7A 0%, #B85A88 100%);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0px 6px 15px rgba(166, 77, 122, 0.25);
+        }
+
+        #analyzeBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0px 10px 25px rgba(166, 77, 122, 0.35);
+            background: linear-gradient(135deg, #B85A88 0%, #C96795 100%);
+        }
+
+        /* ===== Result Box ===== */
+        #output {
+            margin-top: 30px;
+            width: 350px;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255, 250, 240, 0.98);
+            box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            font-size: 16px;
+            line-height: 1.6;
+            font-family: 'Poppins', sans-serif;
+            color: #6B5150;
+        }
+
+        /* ===== Risk Colors ===== */
+        .high-risk { color: #e74c3c; font-weight: bold; }      /* Red */
+        .moderate-risk { color: #f1c40f; font-weight: bold; }  /* Yellow */
+        .pcos-friendly { color: #2ecc71; font-weight: bold; }  /* Green */
+    </style>
 </head>
-<body style="font-family: Arial; text-align: center; margin-top: 50px;">
+<body>
+    <!-- ===== Sidebar Navigation ===== -->
+    <div class="sidebar">
+        <div class="sidebar-logo">✨ ScanIQ</div>
+        <ul class="sidebar-nav">
+            <li><button class="nav-btn active" data-page="homePage">🏠 Home</button></li>
+            <li><button class="nav-btn" data-page="scanPage">🔍 Scan Product</button></li>
+            <li><button class="nav-btn" data-page="aboutPage">ℹ️ About</button></li>
+            <li><button class="nav-btn" data-page="historyPage">📋 History</button></li>
+        </ul>
+    </div>
 
-    <h1>Hormone Impact Scanner</h1>
+    <!-- ===== Main Content ===== -->
+    <div class="main-content">
+        <!-- Home Page -->
+        <div id="homePage" class="page active">
+            <div class="home-content">
+                <h2>Welcome to ScanIQ</h2>
+                <p>Analyze food and cosmetic ingredients to understand their potential impact on your hormones. Click below to start scanning products.</p>
+                <button class="home-btn" onclick="navigateTo('scanPage')">Start Scanning</button>
+            </div>
+        </div>
 
-    <!-- FORM -->
-    <form id="uploadForm">
-        <input type="file" id="imageInput" required>
-        <br><br>
-        <button type="submit">Analyze Product</button>
-    </form>
+        <!-- Scan Page -->
+        <div id="scanPage" class="page">
+            <h1>Scan Product</h1>
 
-    <h2 id="result"></h2>
+            <!-- ===== Button Container with Upload and Analyze ===== -->
+            <div class="button-container">
+                <label for="imageInput" class="custom-file-upload">
+                    📸 Upload Image
+                </label>
+                <button id="analyzeBtn" onclick="sendImage()">🔍 Analyze</button>
+            </div>
+            <input type="file" id="imageInput" accept="image/*">
+
+            <div id="output"></div>
+        </div>
+
+        <!-- About Page -->
+        <div id="aboutPage" class="page">
+            <div class="about-content">
+                <h2>About ScanIQ</h2>
+                
+                <h3>Our Mission</h3>
+                <p><strong>ScanIQ</strong> is a specialized scanner designed to help you make informed decisions about <strong>food and dietary products</strong> for managing PCOS and hormonal health. By analyzing ingredient lists through advanced image recognition, we help you understand the potential impact of foods on your hormones and insulin levels.</p>
+                
+                <h3>Primary Focus: PCOS & PCOD</h3>
+                <p>ScanIQ is primarily designed for analyzing <strong>food products and dietary ingredients</strong> that can impact hormonal balance, particularly for those managing:</p>
+                <ul>
+                    <li>PCOS (Polycystic Ovary Syndrome)</li>
+                    <li>PCOD (Polycystic Ovary Disease)</li>
+                    <li>Hormonal imbalances</li>
+                    <li>Insulin resistance</li>
+                </ul>
+                
+                <h3>What We Scan</h3>
+                <p>Our scanner evaluates ingredient lists from:</p>
+                <ul>
+                    <li>✅ Food products</li>
+                    <li>✅ Supplements and vitamins</li>
+                    <li>✅ Beverages and drinks</li>
+                    <li>✅ Snacks and packaged foods</li>
+                    <li>⚠️ Cosmetics - Coming Soon (not primary focus)</li>
+                </ul>
+                
+                <h3>Risk Categories (For Food Products)</h3>
+                <p>Food products are categorized into three risk levels:</p>
+                <ul>
+                    <li><span style="color: #e74c3c; font-weight: bold;">High Risk</span> - May trigger insulin spikes & hormone disruption</li>
+                    <li><span style="color: #f1c40f; font-weight: bold;">Moderate Risk</span> - Consume in moderation</li>
+                    <li><span style="color: #2ecc71; font-weight: bold;">PCOS Friendly</span> - Low glycemic impact, hormone supportive</li>
+                </ul>
+
+                <h3>About Cosmetic Products</h3>
+                <p>If you scan a cosmetic product, ScanIQ will identify it and let you know that cosmetic analysis is coming soon. For cosmetic safety, please consult dermatological resources.</p>
+                
+                <h3>Disclaimer</h3>
+                <p>This tool is for informational purposes only and should not replace professional medical advice. Please consult with a healthcare provider or registered dietitian for personalized dietary recommendations tailored to your PCOS/PCOD management.</p>
+            </div>
+        </div>
+
+        <!-- History Page -->
+        <div id="historyPage" class="page">
+            <div class="history-content">
+                <h2>Scan History</h2>
+                <div id="historyList" class="history-list"></div>
+                <button class="clear-history-btn" onclick="clearHistory()">Clear History</button>
+            </div>
+        </div>
+    </div>
 
     <script>
-        const form = document.getElementById("uploadForm");
+        // ===== Navigation Function =====
+        function navigateTo(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
 
-        form.addEventListener("submit", async function(event) {
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
 
-            event.preventDefault(); // 🔥 THIS STOPS PAGE REFRESH
+            // Update active button
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
 
-            const fileInput = document.getElementById("imageInput");
-            const file = fileInput.files[0];
+            // Load history when navigating to history page
+            if (pageId === 'historyPage') {
+                displayHistory();
+            }
+        }
+
+        // ===== Navigation button click handlers =====
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                navigateTo(this.getAttribute('data-page'));
+            });
+        });
+
+        // ===== Save to History =====
+        function saveToHistory(riskLevel, score, message, suggestion) {
+            const history = JSON.parse(localStorage.getItem('scanHistory')) || [];
+            
+            const scanResult = {
+                date: new Date().toLocaleString(),
+                risk: riskLevel,
+                score: score,
+                message: message,
+                suggestion: suggestion
+            };
+            
+            history.unshift(scanResult); // Add to beginning
+            
+            // Keep only last 50 scans
+            if (history.length > 50) {
+                history.pop();
+            }
+            
+            localStorage.setItem('scanHistory', JSON.stringify(history));
+        }
+
+        // ===== Display History =====
+        function displayHistory() {
+            const historyList = document.getElementById('historyList');
+            const history = JSON.parse(localStorage.getItem('scanHistory')) || [];
+            
+            if (history.length === 0) {
+                historyList.innerHTML = '<div class="empty-history">No scan history yet. Start scanning products!</div>';
+                return;
+            }
+            
+            historyList.innerHTML = history.map(item => `
+                <div class="history-item">
+                    <div class="history-item-date">${item.date}</div>
+                    <div class="history-item-risk" style="color: ${item.risk === 'High Risk' ? '#e74c3c' : item.risk === 'Moderate Risk' ? '#f1c40f' : '#2ecc71'}">
+                        ${item.risk}
+                    </div>
+                    <div class="history-item-message"><strong>Score:</strong> ${item.score}</div>
+                    <div class="history-item-message"><strong>Message:</strong> ${item.message}</div>
+                </div>
+            `).join('');
+        }
+
+        // ===== Clear History =====
+        function clearHistory() {
+            if (confirm('Are you sure you want to clear all scan history?')) {
+                localStorage.removeItem('scanHistory');
+                displayHistory();
+            }
+        }
+
+        // ===== Send Image Function =====
+        async function sendImage() {
+
+            const file = document.getElementById("imageInput").files[0];
 
             if (!file) {
                 alert("Please upload an image first!");
@@ -42,18 +540,38 @@
 
                 const data = await response.json();
 
-                document.getElementById("result").innerHTML = `
-                    <p><strong>Risk:</strong> ${data.risk}</p>
-                    <p><strong>Message:</strong> ${data.message}</p>
+                // Handle cosmetic products
+                if (data.product_type === "cosmetic") {
+                    document.getElementById("output").innerHTML = `
+                        <p style="font-size: 18px; color: #C84D6F; font-weight: bold;">${data.risk}</p>
+                        <p><strong>Status:</strong> ${data.message}</p>
+                        <p><strong>Info:</strong> ${data.suggestion}</p>
+                        <p style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd; font-size: 14px; color: #999;">${data.note}</p>
+                    `;
+                    return;
+                }
+
+                // Handle food products (PCOS analysis)
+                let riskClass = "";
+                if(data.risk === "High Risk") riskClass = "high-risk";
+                else if(data.risk === "Moderate Risk") riskClass = "moderate-risk";
+                else riskClass = "pcos-friendly";
+
+                // Save to history
+                saveToHistory(data.risk, data.score, data.message, data.suggestion);
+
+                document.getElementById("output").innerHTML = `
+                    <p><strong>Risk:</strong> <span class="${riskClass}">${data.risk}</span></p>
                     <p><strong>Score:</strong> ${data.score}</p>
+                    <p><strong>Message:</strong> ${data.message}</p>
                     <p><strong>Suggestion:</strong> ${data.suggestion}</p>
                 `;
-            } catch (error) {
-                document.getElementById("result").innerHTML = "Error connecting to backend.";
-                console.error(error);
-            }
 
-        });
+            } catch (error) {
+                document.getElementById("output").innerHTML = "Error connecting backend";
+                console.log(error);
+            }
+        }
     </script>
 
 </body>
