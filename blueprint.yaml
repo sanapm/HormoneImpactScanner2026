@@ -4,11 +4,9 @@ services:
     env: python                            # language/runtime
     plan: free                             # choose a plan (free, starter, etc.)
 
-    buildCommand:                         # run before start
-      - pip install -r requirements.txt
+    buildCommand: "pip install -r requirements.txt"  # run before start
 
-    startCommand:                         # how to launch your app
-      - python app.py                     # or: flask run --port $PORT
+    startCommand: "python app.py"  # how to launch your app (or: flask run --port $PORT)
 
     envVars:                              # optional environment variables
       - key: FLASK_ENV
