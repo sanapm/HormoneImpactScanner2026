@@ -1,0 +1,17 @@
+services:
+  - type: web                              # a web service (http)
+    name: hormone-impact-scanner          # any unique name you like
+    env: python                            # language/runtime
+    plan: free                             # choose a plan (free, starter, etc.)
+
+    buildCommand:                         # run before start
+      - pip install -r requirements.txt
+
+    startCommand:                         # how to launch your app
+      - python app.py                     # or: flask run --port $PORT
+
+    envVars:                              # optional environment variables
+      - key: FLASK_ENV
+        value: production
+      - key: PORT
+        value: "10000"                    # Render will override with its own port
